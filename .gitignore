@@ -38,3 +38,5 @@ build/
 
 frontend/node_modules
 .DS_Store
+
+Backend/src/main/resources/application.yml
