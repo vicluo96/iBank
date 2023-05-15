@@ -25,7 +25,7 @@ export default function Home(props) {
      * Deposit money
      */
     function deposit() {
-        fetch('http://localhost:8081/bankSys/user/deposit', {
+        fetch('http://localhost:8080/bank/user/deposit', {
             method: 'POST',
             headers: {
                 'token': token,
@@ -52,7 +52,7 @@ export default function Home(props) {
      * Withdrawal money
      */
     function withdrawal() {
-        fetch('http://localhost:8081/bankSys/user/withdrawal', {
+        fetch('http://localhost:8080/bank/user/withdrawal', {
             method: 'POST',
             headers: {
                 'token': token,
