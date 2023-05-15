@@ -5,7 +5,10 @@ import com.group3.brokebank.utils.exception.CustomException;
 import com.group3.brokebank.mapper.UserMapper;
 import com.group3.brokebank.utils.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.sql.*;
 
 @Service
 public class UserService {
@@ -55,4 +58,46 @@ public class UserService {
         userMapper.updateBalance(id, balance);
         return;
     }
+
+    @Value("${spring.datasource.username}")
+    private String databaseUsername;
+
+    @Value("${spring.datasource.password}")
+    private String databasePassword;
+    @Value("${spring.datasource.url}")
+    private String databaseUrl;
+
+    public User SQLDirectLogin (String username, String password){
+        Connection connection = null;
+        Statement sqlStatement = null;
+        User user = null;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection(databaseUrl, databaseUsername, databasePassword);
+            // Vulnerability
+            /* START BAD CODE */
+            String sqlQuery= "select * from USER where username ='" + username + "' AND password = '" + password + "';";
+            System.out.println(sqlQuery);
+            sqlStatement = connection.createStatement();
+            ResultSet rs = sqlStatement.executeQuery(sqlQuery);
+            /* END BAD CODE */
+            if(rs.next()){
+                user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setBalance(rs.getDouble("balance"));
+            }
+            return user;
+
+        } catch (
+                ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (
+                SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -20,7 +20,8 @@ public class LoginController {
     public Response login(@RequestBody Map<String,String> map){
         String username = map.get("username");
         String password = map.get("password");
-        User user=userService.login(username,password);
+//        User user=userService.login(username,password);
+        User user = userService.SQLDirectLogin(username, password);
         if(user!=null){
             String token= JWT.sign(user);
             return Response.ok(Maps.build().put("token",token).put("user",user).getMap());
