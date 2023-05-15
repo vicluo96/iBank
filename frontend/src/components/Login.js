@@ -29,7 +29,7 @@ export default function Login(props) {
      */
     function handleSubmit(event) {
         event.preventDefault()
-        fetch('http://localhost:8081/bankSys/login', {
+        fetch('http://localhost:8080/bank/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
