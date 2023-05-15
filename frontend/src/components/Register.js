@@ -73,7 +73,7 @@ export default function Register() {
                     if (data.status === 200) {
                         setRegisterStatusText(`Congratulations ${formData.username}, You have registered successfully!`)
                     } else {
-                        setRegisterStatusText(`This username has been used, please try another one~`)
+                        setRegisterStatusText(`This username has been used, please try another one!`)
                     }
                 })
                 .catch((error) => {
