@@ -51,7 +51,7 @@ form {
 .register-form-reminder {
   height: 40px;
   margin: 0;
-  color: darkred;
+  color: red;
 }
 
 .register-statusText {
@@ -212,7 +212,7 @@ form {
 
 .home-reminderText {
   height: 20px;
-  color: darkred;
+  color: red;
 }
 
 /*nav section*/
