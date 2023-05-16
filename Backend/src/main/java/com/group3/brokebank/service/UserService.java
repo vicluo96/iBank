@@ -75,20 +75,42 @@ public class UserService {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(databaseUrl, databaseUsername, databasePassword);
-            // Vulnerability
+
+            //Vulnerability CWE-89
+            /* START BAD CODE */
+            String sqlMyEvents = "select * from USER where username ='" + username +"';";
+            System.out.println(sqlMyEvents);
+            sqlStatement = connection.createStatement();
+            ResultSet rs1 = sqlStatement.executeQuery(sqlMyEvents);
+            /* END BAD CODE */
+
+            //Vulnerability CWE-200
+            /* START BAD CODE */
+            if(!rs1.next()){
+                throw new CustomException("Login Failed - unknown username");
+            }
+            /* END BAD CODE */
+
+            // Vulnerability CWE-89
             /* START BAD CODE */
             String sqlQuery= "select * from USER where username ='" + username + "' AND password = '" + password + "';";
             System.out.println(sqlQuery);
-            sqlStatement = connection.createStatement();
-            ResultSet rs = sqlStatement.executeQuery(sqlQuery);
+            //sqlStatement = connection.createStatement();
+            ResultSet rs2 = sqlStatement.executeQuery(sqlQuery);
             /* END BAD CODE */
-            if(rs.next()){
+
+            if(rs2.next()){
                 user = new User();
-                user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setBalance(rs.getDouble("balance"));
+                user.setId(rs2.getInt("id"));
+                user.setUsername(rs2.getString("username"));
+                user.setPassword(rs2.getString("password"));
+                user.setBalance(rs2.getDouble("balance"));
             }
+
+            if(user == null){
+                throw new CustomException("Login Failed - unknown password");
+            }
+
             return user;
 
         } catch (
