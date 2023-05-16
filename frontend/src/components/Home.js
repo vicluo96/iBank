@@ -37,7 +37,11 @@ export default function Home(props) {
             .then(response => response.json())
             .then(data => {
                 if(data.status === 500){
+                    /* START BAD CODE */
                     setReminderText(data.msg)
+                     /* BAD CODE END */
+                    //fix
+                    //setReminderText("An error_occurred")
                 }else{
                     setReminderText(`Successfully deposited $${postObj.amount}!`)
                     setBalance(data.data)
