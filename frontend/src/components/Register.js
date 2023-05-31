@@ -104,7 +104,7 @@ export default function Register() {
 
 
                 <input
-                    type="text"
+                    type="password"
                     placeholder="password"
                     name="password"
                     onChange={updateFormData}
