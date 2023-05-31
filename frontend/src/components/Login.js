@@ -43,7 +43,10 @@ export default function Login(props) {
                     // Call the changeLoginStatus() function passed from App.js to update the user login data
                     props.updateUserInfo(data)
                 } else if (data.status === 500) {
-                    setLoginStatusText(data.msg)
+                    /*BAD CODE START*/
+                    //setLoginStatusText(data.msg)
+                    /*BAD CODE END*/
+                    setLoginStatusText("Login failed: invalid input or unsupported format")
                 }
             })
             .catch((error) => {
@@ -64,7 +67,7 @@ export default function Login(props) {
                     className="login-form-input"
                 />
                 <input
-                    type="text"
+                    type="password"
                     placeholder="password"
                     name="password"
                     onChange={updateUserLoginData}
