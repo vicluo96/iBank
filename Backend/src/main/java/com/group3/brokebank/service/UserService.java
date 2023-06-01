@@ -78,26 +78,47 @@ public class UserService {
 
             //Vulnerability CWE-89
             /* START BAD CODE */
-            String sqlMyEvents = "select * from USER where username ='" + username +"';";
-            System.out.println(sqlMyEvents);
-            sqlStatement = connection.createStatement();
-            ResultSet rs1 = sqlStatement.executeQuery(sqlMyEvents);
+//            String sqlMyEvents = "select * from USER where username ='" + username +"';";
+//            sqlStatement = connection.createStatement();
+//            ResultSet rs1 = sqlStatement.executeQuery(sqlMyEvents);
             /* END BAD CODE */
+
+            /* Fix Code */
+            String sqlQuery1 = "SELECT * FROM USER WHERE username = ? ";
+            PreparedStatement pstmt1 = connection.prepareStatement(sqlQuery1);
+            // Set the value for the placeholder
+            pstmt1.setString(1, username);
+            ResultSet rs1 = pstmt1.executeQuery();
+            /* Fix Code */
 
             //Vulnerability CWE-200
             /* START BAD CODE */
-            if(!rs1.next()){
-                throw new CustomException("Login Failed - unknown username");
-            }
+//            if(!rs1.next()){
+//                throw new CustomException("Login Failed - unknown username");
+//            }
             /* END BAD CODE */
+
+            if(!rs1.next()){
+                throw new CustomException();
+            }
 
             // Vulnerability CWE-89
             /* START BAD CODE */
-            String sqlQuery= "select * from USER where username ='" + username + "' AND password = '" + password + "';";
-            System.out.println(sqlQuery);
-            //sqlStatement = connection.createStatement();
-            ResultSet rs2 = sqlStatement.executeQuery(sqlQuery);
+//            String sqlQuery= "select * from USER where username ='" + username + "' AND password = '" + password + "';";
+//            System.out.println(sqlQuery);
+//            //sqlStatement = connection.createStatement();
+//            ResultSet rs2 = sqlStatement.executeQuery(sqlQuery);
             /* END BAD CODE */
+
+            /* Fix Code */
+            String sqlQuery2 = "SELECT * FROM USER WHERE username = ? AND password = ? ";
+            PreparedStatement pstmt2 = connection.prepareStatement(sqlQuery2);
+            // Set the value for the placeholder
+            pstmt2.setString(1, username);
+            pstmt2.setString(2, password);
+
+            ResultSet rs2 = pstmt2.executeQuery();
+            /* Fix Code */
 
             if(rs2.next()){
                 user = new User();
@@ -107,8 +128,11 @@ public class UserService {
                 user.setBalance(rs2.getDouble("balance"));
             }
 
+//            if(user == null){
+//                throw new CustomException("Login Failed - unknown password");
+//            }
             if(user == null){
-                throw new CustomException("Login Failed - unknown password");
+                throw new CustomException("Login Failed");
             }
 
             return user;
