@@ -46,7 +46,7 @@ export default function Login(props) {
                     /*BAD CODE START*/
                     //setLoginStatusText(data.msg)
                     /*BAD CODE END*/
-                    setLoginStatusText("Login failed: invalid input or unsupported format")
+                    setLoginStatusText("Login failed: Wrong username or password")
                 }
             })
             .catch((error) => {
