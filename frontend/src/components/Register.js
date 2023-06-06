@@ -1,6 +1,8 @@
 import React from "react";
-// zishan01
-// 12345
+import CryptoJS from "crypto-js";
+const SHA256 = require("crypto-js/sha256");
+let md5 = require('md5')
+
 
 export default function Register() {
     // registerStatusText is used to save the message whether the account is registered successfully or not
@@ -59,7 +61,16 @@ export default function Register() {
         }))
 
         if (nameIsValid && passwordIsValid) {
-
+            setFormData({
+                username: formData.username,
+                password: formData.password
+            })
+            const salt = "80zzm081sr@nd0m";
+            const algo = CryptoJS.algo.SHA256.create();
+            algo.update(formData.password, "utf-8");
+            algo.update(CryptoJS.SHA256(salt), "utf-8");
+            const hash = algo.finalize().toString(CryptoJS.enc.hex);
+            formData.password = md5(hash);
             fetch('http://localhost:8080/bank/user/create', {
                 method: 'POST',
                 headers: {
