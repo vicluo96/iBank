@@ -37,6 +37,10 @@ public class UserService {
         paramService.checkAmount(amountStr);
         Double balance = query(id);
         balance = balance + Double.parseDouble(amountStr);
+        Double accountLimit = 9999999999.99;
+        if (balance > accountLimit ){
+            throw new CustomException(" The new account balance " + balance + " will surpass the database limit: 9999999999.99");
+        }
         updateBalance(id, balance);
         return query(id);
     }

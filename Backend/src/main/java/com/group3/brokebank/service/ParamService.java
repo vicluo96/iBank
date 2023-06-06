@@ -26,7 +26,7 @@ public class ParamService {
             return;
         }
         else {
-            throw new CustomException("invalid_input");
+            throw new CustomException("invalid_input: input amount are bounded from 0.00 to 4294967295.99");
         }
     }
 }
