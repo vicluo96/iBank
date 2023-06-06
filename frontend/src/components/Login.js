@@ -1,5 +1,7 @@
 import React from "react";
-
+import CryptoJS from "crypto-js";
+const SHA256 = require("crypto-js/sha256");
+let md5 = require('md5')
 export default function Login(props) {
     const [loginFormData, setLoginFormData] = React.useState(
         {
@@ -29,6 +31,16 @@ export default function Login(props) {
      */
     function handleSubmit(event) {
         event.preventDefault()
+        setLoginFormData({
+            username: loginFormData.username,
+            password: loginFormData.password
+        })
+        const salt = "80zzm081sr@nd0m";
+        const algo = CryptoJS.algo.SHA256.create();
+        algo.update(loginFormData.password, "utf-8");
+        algo.update(CryptoJS.SHA256(salt), "utf-8");
+        const hash = algo.finalize().toString(CryptoJS.enc.hex);
+        loginFormData.password = md5(hash);
         fetch('http://localhost:8080/bank/login', {
             method: 'POST',
             headers: {
